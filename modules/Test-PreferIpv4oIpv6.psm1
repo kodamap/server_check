@@ -25,7 +25,7 @@ function Test-PreferIpv4oIpv6 {
         OutputMsg "pass" $MyInvocation.MyCommand ("$key is " + [Convert]::ToString($result,16))
     }
     elseif ($result -eq 255) {
-        OutputMsg "warn", $MyInvocation.MyCommand, ("$key is " + [Convert]::ToString($result,16))
+        OutputMsg "warn" $MyInvocation.MyCommand ("$key is " + [Convert]::ToString($result,16))
     }
 }
 
