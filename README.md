@@ -4,8 +4,8 @@
   - [3.1. Example](#31-example)
     - [3.1.1. Check from inside of the server](#311-check-from-inside-of-the-server)
     - [3.1.2. Check from outside of the server](#312-check-from-outside-of-the-server)
-  - [3.2. Customise check modules](#32-customise-check-modules)
-    - [3.2.1. locate the module under the `modules`](#321-locate-the-module-under-the-modules)
+  - [3.2. Customize check modules](#32-customize-check-modules)
+    - [3.2.1. Locate the module under the `modules`](#321-locate-the-module-under-the-modules)
     - [3.2.2. Add the check module to the main script.](#322-add-the-check-module-to-the-main-script)
 
 
@@ -15,7 +15,7 @@ This is a server checking tool to reduce careless mistakes.
 
 It checks the "should be" state from the inside of the server from a different perspective than the configuration test.
 
-- You can use this on Windows Server 2016(above). 
+- You can use this on Windows Server 2016 and above. 
 - No correction of setting values will be made.
 - Define and evaluate "should be" states. No comparison with system specifications is made.
 - Thus, there is no need to hardcode the setting value in the check module(script).
@@ -25,28 +25,28 @@ It checks the "should be" state from the inside of the server from a different p
 
 # 2. Check list
 
-- Decide what state is `Pass'.
+- Decide what state is `Pass`.
 - Display 'Warn' to note "Is this configuration OK?"
 - `()` means  the default parameters used by the check script to evaluate.
 
 __Windows Server Check Profile__
 
-| Category            | Check                     | Description                                                                  |
-| ----------------- | --------------------- | ---------------------------------------------------------- |
-| State                | Ntp time sync    | Check if there is a time drift between a server and PDC Emulator in domain environmet.<br>**Warning**, if there is a time drift.(`drift: 10 seconds`)| 
-|                          | Secure Channel    | Check if there are no problem with computer secure channel in domain environment (`True`) | 
-|                     |  ServerSpec<br>(CPU/RAM/Disk) | Check if the resource allocation is satisfied for server use(BaseLine). [^1]<br> (`BaseLine: 2Core, 8GB, 100GB`) |
-|                               |  Prefer IPv4 over IPv6 | Check if the setting of `Prefer IPv4 over IPv6`<br>**Warning**, if it is `disabled(0xFF) or it is other value`, if registory does not exists, `Skip`.  (`DisabledComponents: 0x20`)  |
-| Security          | UAC                    | Check if UAC is enabled. **Warning**, if it is `Disabled`|
-|                          | Firewall                | Check if All profiles are turned on. <br>**Waring**, if one of them is `Disabled`|
-|                          | Simple Password | Check if a simple password is set for local admin accounts. <br>(Passw0rd, P@ssword) | 
-|                          | PasswordNeverExpires | Check if `PasswordNeverExpires` is enabled for the local administrator (`PasswordExpires: blank`) <br>**Warning**, if it is `Disabled`[^2] | 
-|                          | WindowsUpate | Check if AutoUpdate is Enabled(`NoAutoUpdate: 0`)<br>**Warning**, if it is `Disabled` | 
-| Connectivity      | DNS Resolvers        | Connectivity check to DNS resolvers (`Port: Tcp/53`)[^3]| 
-|                   | Internet             | Connectivity check to the internet<br>If proxy is enabled, it automatically uses proxy server. (`Url:'google.co.jp'`) | 
+| Category     | Check                        | Description                                                                                                                                                                         |
+| ------------ | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| State        | Ntp time sync                | Check if there is a time drift between a server and PDC Emulator in a domain environmet.<br>**Warning**, if there is a time drift.(`drift: 10 seconds`)                             |
+|              | Secure Channel               | Check if there are no problems with computer's secure channel in domain environment (`True`)                                                                                        |
+|              | ServerSpec<br>(CPU/RAM/Disk) | Check if the resource allocation is satisfied for server use(BaseLine). [^1]<br> (`BaseLine: 2Core, 8GB, 100GB`)                                                                    |
+|              | Prefer IPv4 over IPv6        | Check if the setting of `Prefer IPv4 over IPv6`<br>**Warning**, if it is `disabled(0xFF) or it is other value`, if registory does not exists, `Skip`.  (`DisabledComponents: 0x20`) |
+| Security     | UAC                          | Check if UAC is enabled. **Warning**, if it is `Disabled`                                                                                                                           |
+|              | Firewall                     | Check if all profiles are turned on. <br>**Warning**, if one of them is `Disabled`                                                                                                  |
+|              | Simple Password              | Check if a simple password is set for local admin accounts. <br>(Passw0rd, P@ssword)                                                                                                |
+|              | PasswordNeverExpires         | Check if `PasswordNeverExpires` is enabled for the local administrator (`PasswordExpires: blank`) <br>**Warning**, if it is `Disabled`[^2]                                          |
+|              | WindowsUpdate                | Check if AutoUpdate is Enabled(`NoAutoUpdate: 0`)<br>**Warning**, if it is `Disabled`                                                                                               |
+| Connectivity | DNS Resolvers                | Connectivity check to DNS resolvers (`Port: Tcp/53`)[^3]                                                                                                                            |
+|              | Internet                     | Connectivity check to the internet<br>If proxy is enabled, it automatically uses proxy server. (`Url:'google.co.jp'`)                                                               |
 
 
-[^1]: Virtual machine configuration testing is performed on the virtualization infrastructure side. Its complementary tests.
+[^1]: Virtual machine configuration testing is performed on the virtualization infrastructure side. It's a complementary test.
 
 [^2]: If you use complex passwords, periodic password changes for admin accounts are considered "unnecessary".
 
@@ -92,7 +92,7 @@ PS C:\server_check> Invoke-Command -Computer server1 -ScriptBlock { C:\server_ch
 [^4]: WinRM setting will be needed to be configured in a WORKGROUP environment.
 
 
-## 3.2. Customise check modules
+## 3.2. Customize check modules
 
 - Create a check module. (Recommend to use  [Approved Verbs](https://github.com/MicrosoftDocs/PowerShell-Docs/blob/staging/reference/docs-conceptual/developer/cmdlet/approved-verbs-for-windows-powershell-commands.md))
 - Send the result to `OutPutMsg`
@@ -122,7 +122,7 @@ function Test-XXXXX {
 Export-ModuleMember -Function *
 ```
 
-### 3.2.1. locate the module under the `modules`
+### 3.2.1. Locate the module under the `modules`
 
 
 ```sh
